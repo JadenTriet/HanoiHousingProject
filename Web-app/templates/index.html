@@ -1,0 +1,364 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel= "stylesheet" href="{{url_for('static', filename='css/styles.css')}}"/>
+</head>
+<body>
+    <div class="error_message">
+        {% if error_message %}
+        <p>{{ error_message }}</p>
+        {% endif %}
+    </div>
+
+    <div id="result" class="predict">
+        {% if predict %}
+        <p>The predicted value of the house is: {{predict}} million VND per m2</p>
+        {% endif %}
+    </div>
+
+    <h1>Hanoi Housing Price Predictor</h1>
+    <form action="{{url_for('predict')}}" method="post">
+        <label for="paperwork">Does the house have the appropiate paperwork?</label>
+        <select id="paperwork" name="paperwork">
+            <option value="True">Yes</option>
+            <option value="False">No</option>
+        </select>
+        <br/>
+
+        <label for="floors">How many floors does the house have?</label>
+        <select id="floors" name="floors">
+            <option value="1">1</option>
+            <option value="2">2</option>
+            <option value="3">3</option>
+            <option value="4">4</option>
+            <option value="5">5</option>
+            <option value="6">6</option>
+            <option value="7">7</option>
+            <option value="8">8</option>
+            <option value="9">9</option>
+            <option value="10">10</option>
+        </select>
+        <br/>
+
+        <label for="rooms">How many rooms does the house have?</label>
+        <select id="rooms" name="rooms">
+            <option value="1">1</option>
+            <option value="2">2</option>
+            <option value="3">3</option>
+            <option value="4">4</option>
+            <option value="5">5</option>
+            <option value="6">6</option>
+            <option value="7">7</option>
+            <option value="8">8</option>
+            <option value="9">9</option>
+            <option value="10">10</option>
+        </select>
+        <br/>
+
+        <label for="area">How large is the house in m2?</label>
+        <input type="number" id="area" name="area"/>
+        <br/>
+        
+        <label for="district">What district is the house in?</label>
+        <select id="district" name="district">
+            <option value='District_Ba Đình'>Ba Đình</option>
+            <option value='District_Bắc Từ Liêm'>Bắc Từ Liêm</option>
+            <option value='District_Chương Mỹ'>Chương Mỹ</option>
+            <option value='District_Cầu Giấy'>Cầu Giấy</option>
+            <option value='District_Gia Lâm'>Gia Lâm</option>
+            <option value='District_Hai Bà Trưng'>Hai Bà Trưng</option>
+            <option value='District_Hoài Đức'>Hoài Đức</option>
+            <option value='District_Hoàn Kiếm'>Hoàn Kiếm</option>
+            <option value='District_Hoàng Mai'>Hoàng Mai</option>
+            <option value='District_Hà Đông'>Hà Đông</option>
+            <option value='District_Long Biên'>Long Biên</option>
+            <option value='District_Mê Linh'>Mê Linh</option>
+            <option value='District_Nam Từ Liêm'>Nam Từ Liêm</option>
+            <option value='District_Phúc Thọ'>Phúc Thọ</option>
+            <option value='District_Quốc Oai'>Quốc Oai</option>
+            <option value='District_Sóc Sơn'>Sóc Sơn</option>
+            <option value='District_Sơn Tây'>Sơn Tây</option>
+            <option value='District_Thanh Oai'>Thanh Oai</option>
+            <option value='District_Thanh Trì'>Thanh Trì</option>
+            <option value='District_Thanh Xuân'>Thanh Xuân</option>
+            <option value='District_Thường Tín'>Thường Tín</option>
+            <option value='District_Thạch Thất'>Thạch Thất</option>
+            <option value='District_Tây Hồ'>Tây Hồ</option>
+            <option value='District_Đan Phượng'>Đan Phượng</option>
+            <option value='District_Đông Anh'>Đông Anh</option>
+            <option value='District_Đống Đa'>Đống Đa</option>
+        </select>
+        <br/>
+        
+        <label for="ward">What ward is the house in?</label>
+        <select id="ward" name="ward">
+            <option value='Ward_An Khánh'>An Khánh</option>
+            <option value='Ward_An Thượng'>An Thượng</option>
+            <option value='Ward_Biên Giang'>Biên Giang</option>
+            <option value='Ward_Bách Khoa'>Bách Khoa</option>
+            <option value='Ward_Bát Tràng'>Bát Tràng</option>
+            <option value='Ward_Bích Hòa'>Bích Hòa</option>
+            <option value='Ward_Bùi Thị Xuân'>Bùi Thị Xuân</option>
+            <option value='Ward_Bưởi'>Bưởi</option>
+            <option value='Ward_Bạch Mai'>Bạch Mai</option>
+            <option value='Ward_Bạch Đằng'>Bạch Đằng</option>
+            <option value='Ward_Bắc Hồng'>Bắc Hồng</option>
+            <option value='Ward_Bồ Đề'>Bồ Đề</option>
+            <option value='Ward_Chúc Sơn'>Chúc Sơn</option>
+            <option value='Ward_Chương Dương'>Chương Dương</option>
+            <option value='Ward_Cát Linh'>Cát Linh</option>
+            <option value='Ward_Cầu Diễn'>Cầu Diễn</option>
+            <option value='Ward_Cầu Dền'>Cầu Dền</option>
+            <option value='Ward_Cống Vị'>Cống Vị</option>
+            <option value='Ward_Cổ Bi'>Cổ Bi</option>
+            <option value='Ward_Cổ Nhuế 1'>Cổ Nhuế 1</option>
+            <option value='Ward_Cổ Nhuế 2'>Cổ Nhuế 2</option>
+            <option value='Ward_Cổ Đông'>Cổ Đông</option>
+            <option value='Ward_Cửa Nam'>Cửa Nam</option>
+            <option value='Ward_Cửa Đông'>Cửa Đông</option>
+            <option value='Ward_Cự Khê'>Cự Khê</option>
+            <option value='Ward_Cự Khối'>Cự Khối</option>
+            <option value='Ward_Di Trạch'>Di Trạch</option>
+            <option value='Ward_Duyên Thái'>Duyên Thái</option>
+            <option value='Ward_Dương Liễu'>Dương Liễu</option>
+            <option value='Ward_Dương Nội'>Dương Nội</option>
+            <option value='Ward_Dịch Vọng'>Dịch Vọng</option>
+            <option value='Ward_Dịch Vọng Hậu'>Dịch Vọng Hậu</option>
+            <option value='Ward_Gia Thụy'>Gia Thụy</option>
+            <option value='Ward_Giang Biên'>Giang Biên</option>
+            <option value='Ward_Giáp Bát'>Giáp Bát</option>
+            <option value='Ward_Giảng Võ'>Giảng Võ</option>
+            <option value='Ward_Hoàng Liệt'>Hoàng Liệt</option>
+            <option value='Ward_Hoàng Văn Thụ'>Hoàng Văn Thụ</option>
+            <option value='Ward_Hà Cầu'>Hà Cầu</option>
+            <option value='Ward_Hàng Buồm'>Hàng Buồm</option>
+            <option value='Ward_Hàng Bài'>Hàng Bài</option>
+            <option value='Ward_Hàng Bông'>Hàng Bông</option>
+            <option value='Ward_Hàng Bạc'>Hàng Bạc</option>
+            <option value='Ward_Hàng Bồ'>Hàng Bồ</option>
+            <option value='Ward_Hàng Bột'>Hàng Bột</option>
+            <option value='Ward_Hàng Gai'>Hàng Gai</option>
+            <option value='Ward_Hàng Mã'>Hàng Mã</option>
+            <option value='Ward_Hàng Trống'>Hàng Trống</option>
+            <option value='Ward_Hàng Đào'>Hàng Đào</option>
+            <option value='Ward_Hương Ngải'>Hương Ngải</option>
+            <option value='Ward_Hạ Đình'>Hạ Đình</option>
+            <option value='Ward_Hải Bối'>Hải Bối</option>
+            <option value='Ward_Hữu Hoà'>Hữu Hoà</option>
+            <option value='Ward_Khánh Hà'>Khánh Hà</option>
+            <option value='Ward_Khâm Thiên'>Khâm Thiên</option>
+            <option value='Ward_Khương Mai'>Khương Mai</option>
+            <option value='Ward_Khương Thượng'>Khương Thượng</option>
+            <option value='Ward_Khương Trung'>Khương Trung</option>
+            <option value='Ward_Khương Đình'>Khương Đình</option>
+            <option value='Ward_Kim Chung'>Kim Chung</option>
+            <option value='Ward_Kim Giang'>Kim Giang</option>
+            <option value='Ward_Kim Hoa'>Kim Hoa</option>
+            <option value='Ward_Kim Liên'>Kim Liên</option>
+            <option value='Ward_Kim Mã'>Kim Mã</option>
+            <option value='Ward_Kim Sơn'>Kim Sơn</option>
+            <option value='Ward_Kiêu Kỵ'>Kiêu Kỵ</option>
+            <option value='Ward_Kiến Hưng'>Kiến Hưng</option>
+            <option value='Ward_La Khê'>La Khê</option>
+            <option value='Ward_La Phù'>La Phù</option>
+            <option value='Ward_Liên Mạc'>Liên Mạc</option>
+            <option value='Ward_Liên Ninh'>Liên Ninh</option>
+            <option value='Ward_Liễu Giai'>Liễu Giai</option>
+            <option value='Ward_Long Biên'>Long Biên</option>
+            <option value='Ward_Láng Hạ'>Láng Hạ</option>
+            <option value='Ward_Láng Thượng'>Láng Thượng</option>
+            <option value='Ward_Lê Lợi'>Lê Lợi</option>
+            <option value='Ward_Lê Đại Hành'>Lê Đại Hành</option>
+            <option value='Ward_Lý Thái Tổ'>Lý Thái Tổ</option>
+            <option value='Ward_Lĩnh Nam'>Lĩnh Nam</option>
+            <option value='Ward_Mai Dịch'>Mai Dịch</option>
+            <option value='Ward_Mai Lâm'>Mai Lâm</option>
+            <option value='Ward_Mai Đình'>Mai Đình</option>
+            <option value='Ward_Mai Động'>Mai Động</option>
+            <option value='Ward_Minh Khai'>Minh Khai</option>
+            <option value='Ward_Mễ Trì'>Mễ Trì</option>
+            <option value='Ward_Mộ Lao'>Mộ Lao</option>
+            <option value='Ward_Mỹ Đình 1'>Mỹ Đình 1</option>
+            <option value='Ward_Mỹ Đình 2'>Mỹ Đình 2</option>
+            <option value='Ward_Nam Hồng'>Nam Hồng</option>
+            <option value='Ward_Nam Đồng'>Nam Đồng</option>
+            <option value='Ward_Nghĩa Hương'>Nghĩa Hương</option>
+            <option value='Ward_Nghĩa Tân'>Nghĩa Tân</option>
+            <option value='Ward_Nghĩa Đô'>Nghĩa Đô</option>
+            <option value='Ward_Nguyễn Du'>Nguyễn Du</option>
+            <option value='Ward_Nguyễn Trung Trực'>Nguyễn Trung Trực</option>
+            <option value='Ward_Nguyễn Trãi'>Nguyễn Trãi</option>
+            <option value='Ward_Ngã Tư Sở'>Ngã Tư Sở</option>
+            <option value='Ward_Ngô Quyền'>Ngô Quyền</option>
+            <option value='Ward_Ngô Thì Nhậm'>Ngô Thì Nhậm</option>
+            <option value='Ward_Ngũ Hiệp'>Ngũ Hiệp</option>
+            <option value='Ward_Ngọc Hà'>Ngọc Hà</option>
+            <option value='Ward_Ngọc Hồi'>Ngọc Hồi</option>
+            <option value='Ward_Ngọc Khánh'>Ngọc Khánh</option>
+            <option value='Ward_Ngọc Lâm'>Ngọc Lâm</option>
+            <option value='Ward_Ngọc Thụy'>Ngọc Thụy</option>
+            <option value='Ward_Nhân Chính'>Nhân Chính</option>
+            <option value='Ward_Nhật Tân'>Nhật Tân</option>
+            <option value='Ward_Nhị Khê'>Nhị Khê</option>
+            <option value='Ward_Phan Chu Trinh'>Phan Chu Trinh</option>
+            <option value='Ward_Phù Linh'>Phù Linh</option>
+            <option value='Ward_Phù Lỗ'>Phù Lỗ</option>
+            <option value='Ward_Phù Đổng'>Phù Đổng</option>
+            <option value='Ward_Phùng'>Phùng</option>
+            <option value='Ward_Phú Cát'>Phú Cát</option>
+            <option value='Ward_Phú Cường'>Phú Cường</option>
+            <option value='Ward_Phú Diễn'>Phú Diễn</option>
+            <option value='Ward_Phú La'>Phú La</option>
+            <option value='Ward_Phú Lãm'>Phú Lãm</option>
+            <option value='Ward_Phú Lương'>Phú Lương</option>
+            <option value='Ward_Phú Thượng'>Phú Thượng</option>
+            <option value='Ward_Phú Thịnh'>Phú Thịnh</option>
+            <option value='Ward_Phú Đô'>Phú Đô</option>
+            <option value='Ward_Phúc Diễn'>Phúc Diễn</option>
+            <option value='Ward_Phúc La'>Phúc La</option>
+            <option value='Ward_Phúc Lợi'>Phúc Lợi</option>
+            <option value='Ward_Phúc Tân'>Phúc Tân</option>
+            <option value='Ward_Phúc Xá'>Phúc Xá</option>
+            <option value='Ward_Phúc Đồng'>Phúc Đồng</option>
+            <option value='Ward_Phương Canh'>Phương Canh</option>
+            <option value='Ward_Phương Liên'>Phương Liên</option>
+            <option value='Ward_Phương Liệt'>Phương Liệt</option>
+            <option value='Ward_Phương Mai'>Phương Mai</option>
+            <option value='Ward_Phương Trung'>Phương Trung</option>
+            <option value='Ward_Phạm Đình Hổ'>Phạm Đình Hổ</option>
+            <option value='Ward_Phố Huế'>Phố Huế</option>
+            <option value='Ward_Quan Hoa'>Quan Hoa</option>
+            <option value='Ward_Quang Minh'>Quang Minh</option>
+            <option value='Ward_Quang Trung'>Quang Trung</option>
+            <option value='Ward_Quán Thánh'>Quán Thánh</option>
+            <option value='Ward_Quảng An'>Quảng An</option>
+            <option value='Ward_Quốc Tử Giám'>Quốc Tử Giám</option>
+            <option value='Ward_Quỳnh Lôi'>Quỳnh Lôi</option>
+            <option value='Ward_Quỳnh Mai'>Quỳnh Mai</option>
+            <option value='Ward_Sài Sơn'>Sài Sơn</option>
+            <option value='Ward_Sài Đồng'>Sài Đồng</option>
+            <option value='Ward_Sóc Sơn'>Sóc Sơn</option>
+            <option value='Ward_Sơn Đông'>Sơn Đông</option>
+            <option value='Ward_Sơn Đồng'>Sơn Đồng</option>
+            <option value='Ward_Tam Hiệp'>Tam Hiệp</option>
+            <option value='Ward_Thanh Liệt'>Thanh Liệt</option>
+            <option value='Ward_Thanh Lương'>Thanh Lương</option>
+            <option value='Ward_Thanh Nhàn'>Thanh Nhàn</option>
+            <option value='Ward_Thanh Trì'>Thanh Trì</option>
+            <option value='Ward_Thanh Xuân Bắc'>Thanh Xuân Bắc</option>
+            <option value='Ward_Thanh Xuân Nam'>Thanh Xuân Nam</option>
+            <option value='Ward_Thanh Xuân Trung'>Thanh Xuân Trung</option>
+            <option value='Ward_Thành Công'>Thành Công</option>
+            <option value='Ward_Thượng Cát'>Thượng Cát</option>
+            <option value='Ward_Thượng Mỗ'>Thượng Mỗ</option>
+            <option value='Ward_Thượng Thanh'>Thượng Thanh</option>
+            <option value='Ward_Thượng Đình'>Thượng Đình</option>
+            <option value='Ward_Thạch Bàn'>Thạch Bàn</option>
+            <option value='Ward_Thạch Hoà'>Thạch Hoà</option>
+            <option value='Ward_Thịnh Liệt'>Thịnh Liệt</option>
+            <option value='Ward_Thịnh Quang'>Thịnh Quang</option>
+            <option value='Ward_Thổ Quan'>Thổ Quan</option>
+            <option value='Ward_Thụy Khuê'>Thụy Khuê</option>
+            <option value='Ward_Thụy Phương'>Thụy Phương</option>
+            <option value='Ward_Tiên Dược'>Tiên Dược</option>
+            <option value='Ward_Tiền Phong'>Tiền Phong</option>
+            <option value='Ward_Trung Hoà'>Trung Hoà</option>
+            <option value='Ward_Trung Liệt'>Trung Liệt</option>
+            <option value='Ward_Trung Phụng'>Trung Phụng</option>
+            <option value='Ward_Trung Tự'>Trung Tự</option>
+            <option value='Ward_Trung Văn'>Trung Văn</option>
+            <option value='Ward_Tràng Tiền'>Tràng Tiền</option>
+            <option value='Ward_Trâu Quỳ'>Trâu Quỳ</option>
+            <option value='Ward_Trúc Bạch'>Trúc Bạch</option>
+            <option value='Ward_Trương Định'>Trương Định</option>
+            <option value='Ward_Trạm Trôi'>Trạm Trôi</option>
+            <option value='Ward_Trần Hưng Đạo'>Trần Hưng Đạo</option>
+            <option value='Ward_Trần Phú'>Trần Phú</option>
+            <option value='Ward_Tân Lập'>Tân Lập</option>
+            <option value='Ward_Tân Mai'>Tân Mai</option>
+            <option value='Ward_Tân Triều'>Tân Triều</option>
+            <option value='Ward_Tây Mỗ'>Tây Mỗ</option>
+            <option value='Ward_Tây Tựu'>Tây Tựu</option>
+            <option value='Ward_Tương Mai'>Tương Mai</option>
+            <option value='Ward_Tả Thanh Oai'>Tả Thanh Oai</option>
+            <option value='Ward_Tứ Hiệp'>Tứ Hiệp</option>
+            <option value='Ward_Tứ Liên'>Tứ Liên</option>
+            <option value='Ward_Uy Nỗ'>Uy Nỗ</option>
+            <option value='Ward_Việt Hưng'>Việt Hưng</option>
+            <option value='Ward_Vân Canh'>Vân Canh</option>
+            <option value='Ward_Vân Côn'>Vân Côn</option>
+            <option value='Ward_Vân Nội'>Vân Nội</option>
+            <option value='Ward_Võng La'>Võng La</option>
+            <option value='Ward_Võng Xuyên'>Võng Xuyên</option>
+            <option value='Ward_Văn Bình'>Văn Bình</option>
+            <option value='Ward_Văn Chương'>Văn Chương</option>
+            <option value='Ward_Văn Miếu'>Văn Miếu</option>
+            <option value='Ward_Văn Quán'>Văn Quán</option>
+            <option value='Ward_Văn Điển'>Văn Điển</option>
+            <option value='Ward_Vĩnh Hưng'>Vĩnh Hưng</option>
+            <option value='Ward_Vĩnh Phúc'>Vĩnh Phúc</option>
+            <option value='Ward_Vĩnh Quỳnh'>Vĩnh Quỳnh</option>
+            <option value='Ward_Vĩnh Tuy'>Vĩnh Tuy</option>
+            <option value='Ward_Vạn Phúc'>Vạn Phúc</option>
+            <option value='Ward_Xuân Giang'>Xuân Giang</option>
+            <option value='Ward_Xuân Khanh'>Xuân Khanh</option>
+            <option value='Ward_Xuân La'>Xuân La</option>
+            <option value='Ward_Xuân Mai'>Xuân Mai</option>
+            <option value='Ward_Xuân Nộn'>Xuân Nộn</option>
+            <option value='Ward_Xuân Phương'>Xuân Phương</option>
+            <option value='Ward_Xuân Tảo'>Xuân Tảo</option>
+            <option value='Ward_Xuân Đỉnh'>Xuân Đỉnh</option>
+            <option value='Ward_Yên Hoà'>Yên Hoà</option>
+            <option value='Ward_Yên Nghĩa'>Yên Nghĩa</option>
+            <option value='Ward_Yên Phụ'>Yên Phụ</option>
+            <option value='Ward_Yên Sở'>Yên Sở</option>
+            <option value='Ward_Yên Thường'>Yên Thường</option>
+            <option value='Ward_Yên Viên'>Yên Viên</option>
+            <option value='Ward_Yết Kiêu'>Yết Kiêu</option>
+            <option value='Ward_Ô Chợ Dừa'>Ô Chợ Dừa</option>
+            <option value='Ward_Đa Tốn'>Đa Tốn</option>
+            <option value='Ward_Điện Biên'>Điện Biên</option>
+            <option value='Ward_Đình Xuyên'>Đình Xuyên</option>
+            <option value='Ward_Đông Anh'>Đông Anh</option>
+            <option value='Ward_Đông Dư'>Đông Dư</option>
+            <option value='Ward_Đông Hội'>Đông Hội</option>
+            <option value='Ward_Đông La'>Đông La</option>
+            <option value='Ward_Đông Mỹ'>Đông Mỹ</option>
+            <option value='Ward_Đông Ngạc'>Đông Ngạc</option>
+            <option value='Ward_Đông Xuân'>Đông Xuân</option>
+            <option value='Ward_Đại Kim'>Đại Kim</option>
+            <option value='Ward_Đại Mỗ'>Đại Mỗ</option>
+            <option value='Ward_Đại Yên'>Đại Yên</option>
+            <option value='Ward_Đại áng'>Đại áng</option>
+            <option value='Ward_Đặng Xá'>Đặng Xá</option>
+            <option value='Ward_Định Công'>Định Công</option>
+            <option value='Ward_Đống Mác'>Đống Mác</option>
+            <option value='Ward_Đồng Mai'>Đồng Mai</option>
+            <option value='Ward_Đồng Nhân'>Đồng Nhân</option>
+            <option value='Ward_Đồng Tâm'>Đồng Tâm</option>
+            <option value='Ward_Đồng Xuân'>Đồng Xuân</option>
+            <option value='Ward_Đội Cấn'>Đội Cấn</option>
+            <option value='Ward_Đức Giang'>Đức Giang</option>
+            <option value='Ward_Đức Thượng'>Đức Thượng</option>
+            <option value='Ward_Đức Thắng'>Đức Thắng</option>            
+        </select>
+        <br/>
+        
+        <label for="houseType">What type of house is it?</label>
+        <select id="houseType" name="houseType">
+            <option value="House type_Alleyhouse">Alleyhouse</option>
+            <option value="House type_Main street house">Main street house</option>
+            <option value="House type_Shophouse">Shophouse</option>
+            <option value="House type_Villa">Villa</option>
+        </select>
+        <br/>
+
+        <button type="submit">Predict</button>
+
+
+    </form>
+</body>
+</html>
